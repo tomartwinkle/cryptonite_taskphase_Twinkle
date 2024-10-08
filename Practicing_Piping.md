@@ -82,6 +82,6 @@ Basically tee is duplicating the output of /challenge/hack and >(/challenge/the)
 **solving** : "Split piping stderr and stdout"<br>
 at first i tried <br>
 /challenge/hack | /challenge/planet 2> /challenge/the<br>
-
+It didnt work and i took a lot of time thinking about this challenge. 
 
   
