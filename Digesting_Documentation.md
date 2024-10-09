@@ -33,6 +33,7 @@ We can also see an advanced use to manuals by searching for manuals using man ma
  To solve, we had to run the builtin help that opened a page showing how to proceed further. 
               Inside that the shell builtin of challenge gave the argument --secret but it was incomplete. We had to find the argument for --secret
               using the help challenge ie: opening the challenge builtin where i recieved the arguements. 
+              
               help 
               help challenge 
               challenge --secret EbzwavPB
