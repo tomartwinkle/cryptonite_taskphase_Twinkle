@@ -120,3 +120,413 @@ The problem here was that this code is redirecting stdout to /challenge/planet a
 
   #### Additional resources 
   https://www.youtube.com/watch?v=dR0X0-B9ObA
+
+#### Challenge 1 (Redirecting output)
+```bash
+hacker@piping~redirecting-output:~$ echo PWN > COLLEGE
+Correct! You successfully redirected 'PWN' to the file 'COLLEGE'! Here is your
+flag:
+pwn.college{cn7MF75pvCy_YqGKfiCYsnEDqXA.dRjN1QDLykTN0czW}
+```
+#### Challenge 2 (Redirecting more output)
+```bash
+Connected!
+hacker@piping~redirecting-more-output:~$ /challenge/run > myflag
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge will check that output is redirected to a specific file path : myflag
+[INFO] - the challenge will output a reward file if all the tests pass : /flag
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /flag file.
+
+[TEST] You should have redirected my stdout to a file called myflag. Checking...
+
+[PASS] The file at the other end of my stdout looks okay!
+[PASS] Success! You have satisfied all execution requirements.
+hacker@piping~redirecting-more-output:~$ cat myflag
+
+[FLAG] Here is your flag:
+[FLAG] pwn.college{stmGw6uhjV_rs5laxVOoWB9DyBu.dVjN1QDLykTN0czW}
+```
+#### Challenge 3 (Appending Output)
+```bash
+Connected!
+hacker@piping~appending-output:~$ /challenge/run >> ~/the-flag
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge will check that output is redirected to a specific file path : /home/hacker/the-flag
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] Good luck!
+
+[TEST] You should have redirected my stdout to a file called /home/hacker/the-flag. Checking...
+
+[HINT] File descriptors are inherited from the parent, unless the FD_CLOEXEC is set by the parent on the file descriptor.
+[HINT] For security reasons, some programs, such as python, do this by default in certain cases. Be careful if you are
+[HINT] creating and trying to pass in FDs in python.
+
+[PASS] The file at the other end of my stdout looks okay!
+[PASS] Success! You have satisfied all execution requirements.
+I will write the flag in two parts to the file /home/hacker/the-flag! I'll do
+the first write directly to the file, and the second write, I'll do to stdout
+(if it's pointing at the file). If you redirect the output in append mode, the
+second write will append to (rather than overwrite) the first write, and you'll
+get the whole flag!
+hacker@piping~appending-output:~$ cat ~/the-flag
+ |
+\|/ This is the first half:
+ v
+pwn.college{QZYVTvFbbE2MC7odrlV5BKVnc8J.ddDM5QDLykTN0czW}
+                              ^
+     that is the second half /|\
+                              |
+
+If you only see the second half above, you redirected in *truncate* mode (>)
+rather than *append* mode (>>), and so the write of the second half to stdout
+overwrote the initial write of the first half directly to the file. Try append
+mode!
+```
+#### Challenge 4 (Redirecting errors)
+```bash
+Connected!
+hacker@piping~redirecting-errors:~$ /challenge/run > myflag 2> instructions
+hacker@piping~redirecting-errors:~$ cat myflag
+
+[FLAG] Here is your flag:
+[FLAG] pwn.college{kXRGj1X-v9uViTK114h2pYMOh9E.ddjN1QDLykTN0czW}
+```
+#### Challenge 5 (Redirecting input)
+```bash
+Connected!
+hacker@piping~redirecting-input:~$ /challenge/run > PWN < echo COLLEGE
+hacker@piping~redirecting-input:~$ cat PWN
+You must redirect a file called PWN into my standard input! You are currently
+redirecting echo, which is not PWN.
+hacker@piping~redirecting-input:~$ echo COLLEGE < PWN
+COLLEGE
+hacker@piping~redirecting-input:~$ /challenge/run > PWN
+hacker@piping~redirecting-input:~$ cat PWN
+You have not redirected anything to my standard input. Please do so, using '<'.
+hacker@piping~redirecting-input:~$ /challenge/run > PWN < COLLEGE
+hacker@piping~redirecting-input:~$ cat PWN
+You must redirect a file called PWN into my standard input! You are currently
+redirecting COLLEGE, which is not PWN.
+hacker@piping~redirecting-input:~$ echo "COLLEGE" > PWN
+hacker@piping~redirecting-input:~$ /challenge/run < PWN
+Reading from standard input...
+Correct! You have redirected the PWN file into my standard input, and I read
+the value 'COLLEGE' out of it!
+Here is your flag:
+pwn.college{cCI8sDCfeBZMGfznnAqKpZ_I9Es.dBzN1QDLykTN0czW}
+```
+#### Challenge 6 (Grepping stored results)
+```bash
+Connected!
+hacker@piping~grepping-stored-results:~$ /challenge/run > /tmp/data.txt
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge will check that output is redirected to a specific file path : /tmp/data.txt
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stdout to a file called /tmp/data.txt. Checking...
+
+[HINT] File descriptors are inherited from the parent, unless the FD_CLOEXEC is set by the parent on the file descriptor.
+[HINT] For security reasons, some programs, such as python, do this by default in certain cases. Be careful if you are
+[HINT] creating and trying to pass in FDs in python.
+
+[PASS] The file at the other end of my stdout looks okay!
+[PASS] Success! You have satisfied all execution requirements.
+hacker@piping~grepping-stored-results:~$ grep /tmp/data.txt "flag"
+grep: flag: No such file or directory
+hacker@piping~grepping-stored-results:~$ grep /tmp/data.txt "pwn.college"
+grep: pwn.college: No such file or directory
+hacker@piping~grepping-stored-results:~$ grep "flag" /tmp/data.txt
+[FLAG] Here is your flag:
+flags
+persiflage's
+flagships
+flagellum
+camouflage
+conflagration
+flagellum's
+camouflaging
+flagpoles
+camouflage's
+unflagging
+flagged
+conflagrations
+flagellate
+conflagration's
+flagstaff
+flagellating
+flagon
+flagellums
+flagellated
+flagpole
+flagstone's
+flagstaffs
+flagrant
+flagship's
+flagellation's
+camouflaged
+flagons
+camouflages
+persiflage
+flagstone
+flagship
+flagellates
+flagella
+flagellation
+flagon's
+flagpole's
+flagstones
+flag's
+flagging
+flagstaff's
+flag
+flagrantly
+hacker@piping~grepping-stored-results:~$ grep "pwn.college" /tmp/data.txt
+pwn.college{AjDXDKOZYI_u2qcBF3s0TBNF-__.dhTM4QDLykTN0czW}
+```
+#### Challenge 7 (Grepping live output)
+```bash
+hacker@piping~grepping-live-output:~$ /challenge/run
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge checks for a specific process at the other end of stdout : grep
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stdout to another process. Checking...
+
+[FAIL] You did not satisfy all the execution requirements.
+[FAIL] Specifically, you must fix the following issue:
+[FAIL]   stdout of this process does not appear to be a pipe!
+hacker@piping~grepping-live-output:~$ grep "flag" /challenge/run
+$DIR/chio.py --check_stdout_pipe grep --reward /challenge/.data.txt --chio_flag_fd 1
+hacker@piping~grepping-live-output:~$ gep "pwn.college" /challenge/run
+ssh-entrypoint: gep: command not found
+hacker@piping~grepping-live-output:~$ /challenge/run | grep "flag"
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge checks for a specific process at the other end of stdout : grep
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stdout to another process. Checking...
+[TEST] Performing checks on that process!
+
+[INFO] The process' executable is /nix/store/xpq4yhadyhazkcsggmqd7rsgvxb3kjy4-gnugrep-3.11/bin/grep.
+[INFO] This might be different than expected because of symbolic links (for example, from /usr/bin/python to /usr/bin/python3 to /usr/bin/python3.8).
+[INFO] To pass the checks, the executable must be grep.
+
+[PASS] You have passed the checks on the process on the other end of my stdout!
+[PASS] Success! You have satisfied all execution requirements.
+[FLAG] Here is your flag:
+flagstaff's
+flagstaffs
+flagging
+camouflage
+persiflage
+flagon's
+flagellation's
+persiflage's
+flagellates
+conflagration
+flagellate
+flagstone
+conflagration's
+flagon
+flagellated
+flagellating
+flagellum's
+flagons
+flag
+flagstaff
+camouflaging
+flagstones
+camouflages
+camouflaged
+flagstone's
+flagellation
+flagpoles
+flagpole's
+flagrantly
+flagship's
+flagellums
+flagship
+flagpole
+unflagging
+flagships
+flagged
+conflagrations
+flagrant
+flagellum
+camouflage's
+flags
+flag's
+flagella
+hacker@piping~grepping-live-output:~$ /challenge/run | grep "pwn.college"
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge checks for a specific process at the other end of stdout : grep
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stdout to another process. Checking...
+[TEST] Performing checks on that process!
+
+[INFO] The process' executable is /nix/store/xpq4yhadyhazkcsggmqd7rsgvxb3kjy4-gnugrep-3.11/bin/grep.
+[INFO] This might be different than expected because of symbolic links (for example, from /usr/bin/python to /usr/bin/python3 to /usr/bin/python3.8).
+[INFO] To pass the checks, the executable must be grep.
+
+[PASS] You have passed the checks on the process on the other end of my stdout!
+[PASS] Success! You have satisfied all execution requirements.
+pwn.college{0SvlvFPyyy_RnLuqmRmoZVJKXGl.dlTM4QDLykTN0czW}
+hacker@piping~grepping-live-output:~$
+
+```
+#### Challenge 8 (Grepping Errors)
+```bash
+/challenge/run 2>&1 | grep "pwn.college"
+[INFO] WELCOME! This challenge makes the following asks of you:
+[INFO] - the challenge checks for a specific process at the other end of stderr : grep
+[INFO] - the challenge will output a reward file if all the tests pass : /challenge/.data.txt
+
+[HYPE] ONWARDS TO GREATNESS!
+
+[INFO] This challenge will perform a bunch of checks.
+[INFO] If you pass these checks, you will receive the /challenge/.data.txt file.
+
+[TEST] You should have redirected my stderr to another process. Checking...
+[TEST] Performing checks on that process!
+
+[INFO] The process' executable is /nix/store/xpq4yhadyhazkcsggmqd7rsgvxb3kjy4-gnugrep-3.11/bin/grep.
+[INFO] This might be different than expected because of symbolic links (for example, from /usr/bin/python to /usr/bin/python3 to /usr/bin/python3.8).
+[INFO] To pass the checks, the executable must be grep.
+
+[PASS] You have passed the checks on the process on the other end of my stderr!
+[PASS] Success! You have satisfied all execution requirements.
+pwn.college{0tIFnzdA034GVb1-NUHCQpAATvP.dVDM5QDLykTN0czW}
+```
+#### Challenge 9 (Duplicating piped data with tee)
+```bash
+Connected!
+hacker@piping~duplicating-piped-data-with-tee:~$ ls PWN
+PWN
+hacker@piping~duplicating-piped-data-with-tee:~$ cat PWN
+COLLEGE
+hacker@piping~duplicating-piped-data-with-tee:~$ cat pwn
+Usage: /challenge/pwn --secret [SECRET_ARG]
+
+SECRET_ARG should be "YFQG67s7"
+hacker@piping~duplicating-piped-data-with-tee:~$ /challenge/pwn --secret YFQG67s7 | tee /challenge/college
+Processing...
+You are trying to use 'tee' *instead* of /challenge/college. Use it *between*
+/challenge/pwn and /challenge/college!
+You must pipe the output of /challenge/pwn into /challenge/college (or 'tee'
+for debugging).
+hacker@piping~duplicating-piped-data-with-tee:~$ /challenge/pwn --secret YFQG67s7 tee /challenge/college
+Processing...
+You must pipe the output of /challenge/pwn into /challenge/college (or 'tee'
+for debugging).
+hacker@piping~duplicating-piped-data-with-tee:~$ /challenge/pwn --secret YFQG67s7 | /challenge/college
+Processing...
+Correct! Passing secret value to /challenge/college...
+Great job! Here is your flag:
+pwn.college{YFQG67s7iqbxdKcsQQU2qA15-r9.dFjM5QDLykTN0czW}
+hacker@piping~duplicating-piped-data-with-tee:~$ ^C
+hacker@piping~duplicating-piped-data-with-tee:~$  /challenge/pwn --secret YFQG67s7 | tee my_file | /challenge/college
+Processing...
+WARNING: you are overwriting file my_file with tee's output...
+Correct! Passing secret value to /challenge/college...
+Great job! Here is your flag:
+pwn.college{YFQG67s7iqbxdKcsQQU2qA15-r9.dFjM5QDLykTN0czW}
+```
+#### Challenge 10 (Writing to multiple programs)
+```bash
+Connected!
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack 0>&1 | tee /challenge/planet | tee /challenge/the
+WARNING: it looks like you passed the path /challenge/the, instead of the
+substituted process, to tee. This will cause tee to try to write to the
+/challenge/the file, rather than have the shell launch the /challenge/the
+command and redirect tee's output to it.
+WARNING: it looks like you passed the path /challenge/planet, instead of the
+substituted process, to tee. This will cause tee to try to write to the
+/challenge/planet file, rather than have the shell launch the /challenge/planet
+command and redirect tee's output to it.
+/usr/bin/tee: /challenge/the: Permission denied
+/usr/bin/tee: /challenge/planet: Permission denied
+This secret data must directly and simultaneously make it to /challenge/the and
+/challenge/planet. Don't try to copy-paste it; it changes too fast.
+214122959787931463
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack
+You must redirect my output into another command!
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack | >(/challenge/planet) | >(/challenge/the)
+ssh-entrypoint: /dev/fd/63: Permission denied
+ssh-entrypoint: /dev/fd/63: Permission denied
+Are you sure you're properly redirecting input into '/challenge/planet'?
+Are you sure you're properly redirecting input into '/challenge/the'?
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack | <(/challenge/planet) | <(/challenge/the)
+ssh-entrypoint: /dev/fd/63: Permission denied
+ssh-entrypoint: /dev/fd/63: Permission denied
+Are you sure you're properly redirecting input into '/challenge/the'?
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack | 0>(/challenge/planet) | 0>(/challenge/the)
+ssh-entrypoint: 0/dev/fd/63: No such file or directory
+ssh-entrypoint: 0/dev/fd/63: No such file or directory
+Are you sure you're properly redirecting input into '/challenge/planet'?
+Are you sure you're properly redirecting input into '/challenge/the'?
+hacker@piping~writing-to-multiple-programs:~$ /challenge/hack | tee >( /challenge/the ) | /challenge/planet
+Congratulations, you have duplicated data into the input of two programs! Here
+is your flag:
+pwn.college{EBsYKh7HFFKhQCUH9DTF9kCCmjl.dBDO0UDLykTN0czW}
+
+```
+#### Challenge 11 (split piping stdout and stderr)
+```bash
+Connected!
+hacker@piping~split-piping-stderr-and-stdout:~$ /challenge/hack | >(/challenge/planet) | 2>(/challenge/the)
+ssh-entrypoint: /dev/fd/63: Permission denied
+ssh-entrypoint: 2/dev/fd/63: No such file or directory
+Are you sure you're properly redirecting /challenge/hack's standard output into
+'/challenge/planet'?
+Are you sure you're properly redirecting /challenge/hack's standard error into
+'/challenge/the'?
+You must redirect my standard error into '/challenge/the'!
+hacker@piping~split-piping-stderr-and-stdout:~$ /challenge/hack 2>(/challenge/the) >(/challenge/planet)
+It looks like you passed something like '>(something)' as an *argument* to
+/challenge/hack rather than redirecting /challenge/hack's out/error to
+'>(something)'. Remember, 'cmd1 >(cmd2)' does *NOT* redirect output of cmd1;
+rather, it'll run cmd2, hook a file up to its standard input, and pass that
+file as an argument to cmd1. If you want to redirect cmd1's output into that
+file, you will need to do: 'cmd1 > >(cmd2)', which is equivalent to 'cmd1 |
+cmd2'.
+You must redirect my standard output into '/challenge/planet'!
+You must redirect my standard error into '/challenge/the'!
+Are you sure you're properly redirecting /challenge/hack's standard output into
+'/challenge/planet'?
+Are you sure you're properly redirecting /challenge/hack's standard error into
+'/challenge/the'?
+hacker@piping~split-piping-stderr-and-stdout:~$ /challenge/hack 2> > (/challenge/the) > >(/challenge/planet)
+ssh-entrypoint: syntax error near unexpected token `>'
+hacker@piping~split-piping-stderr-and-stdout:~$ /challenge/hack > >( /challenge/planet ) 2> >( /challenge/the )
+Congratulations, you have learned a redirection technique that even experts
+struggle with! Here is your flag:
+pwn.college{w5wt2xxQ5uSkBnDmxmpPRb_7RBO.dFDNwYDLykTN0czW}
+```
