@@ -118,4 +118,5 @@ The problem here was that this code is redirecting stdout to /challenge/planet a
 <br>
 
 
-  
+  #### Additional resources 
+  https://www.youtube.com/watch?v=dR0X0-B9ObA
