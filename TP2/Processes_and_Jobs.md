@@ -1,6 +1,6 @@
 # Processes and Jobs
 ## Thought Process 
-** ** : 
+**Listing Processes** : 
 ### Solving 
 
 #### Challenge  1
