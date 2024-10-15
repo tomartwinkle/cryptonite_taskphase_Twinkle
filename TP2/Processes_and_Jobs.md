@@ -64,59 +64,230 @@ Great job! Here is your payment:
 pwn.college{cRZXZ-ljHsvMp7GjCWRjF8Ro0S1.dJDN4QDLykTN0czW}
 ```
 ## Thought Process 
-**Interrupting Processes** : 
+**Interrupting Processes** : Sometimes instead of killing a process, we just want to the get rid of the process thats clogging the terminal <br>
+what this means is sometimes a process might get stuck or we'd want to stop it manually so we can use the shortcut ctrl+c to cleanly exit.<br>
+It's a quick and easy way to stop programs that are waiting for input or are unresponsive, without having to use more complex commands.<br>
+The difference between kill and interrupting is the way they are used to stop processes and the signals they send to the processes <br>
+In short, interrupting is a softer politer way and killing is a hard and stronger way to terminate a process.
 ### Solving 
-
+Here, the process wont start by running the /challenge/run file till we interrupt it.
 #### Challenge  3
 ```bash
-
+hacker@processes~interrupting-processes:~$ /challenge/run
+I could give you the flag... but I won't, until this process exits. Remember,
+you can force me to exit with Ctrl-C. Try it now!
+^C
+Good job! You have used Ctrl-C to interrupt this process! Here is your flag:
+pwn.college{ggnTL4rzKGIa9xiT9R237GvOGB_.dNDN4QDLykTN0czW}
 ```
 ## Thought Process 
-** ** : 
+**Suspending Processes** : Another softer method is to just suspend the processes to the background using ctrl+z .
 ### Solving 
-
+Here the run wants to see another copy of itself ie: we have to start the process again but for one single process to run twice simultaneously <br>
+we can run it once and suspend it in the background and run it again , that way there will be 2 processes .
 #### Challenge  4
 ```bash
+hacker@processes~suspending-processes:~$ /challenge/run
+I'll only give you the flag if there's already another copy of me running in
+this terminal... Let's check!
 
+UID          PID    PPID  C STIME TTY          TIME CMD
+root          83      65  0 06:24 pts/0    00:00:00 bash /challenge/run
+root          85      83  0 06:24 pts/0    00:00:00 ps -f
+
+I don't see a second me!
+
+To pass this level, you need to suspend me and launch me again! You can
+background me with Ctrl-Z or, if you're not ready to do that for whatever
+reason, just hit Enter and I'll exit!
+^Z
+[1]+  Stopped                 /challenge/run
+hacker@processes~suspending-processes:~$ /challenge/run
+I'll only give you the flag if there's already another copy of me running in
+this terminal... Let's check!
+
+UID          PID    PPID  C STIME TTY          TIME CMD
+root          83      65  0 06:24 pts/0    00:00:00 bash /challenge/run
+root          90      65  0 06:24 pts/0    00:00:00 bash /challenge/run
+root          92      90  0 06:24 pts/0    00:00:00 ps -f
+
+Yay, I found another version of me! Here is the flag:
+pwn.college{0OHKZLqAWSVrO3P3NsEuuOMyTXk.dVDN4QDLykTN0czW}
 ```
 ## Thought Process 
-** ** : 
+**Resuming Processes** : Now, we suspend processes to be able to resume them in the future, otherwise we could just kill them. <br>
+To resume a process and get it back to the foreground of the terminal we use the "fg" command. 
 ### Solving 
-
+I first suspended the run process so its in the background now and to resume it and get it back into the foreground ill use the fg command.
 #### Challenge  5
 ```bash
+hacker@processes~resuming-processes:~$ /challenge/run
+Let's practice resuming processes! Suspend me with Ctrl-Z, then resume me with
+the 'fg' command! Or just press Enter to quit me!
+^Z
+[1]+  Stopped                 /challenge/run
+hacker@processes~resuming-processes:~$ fg
+/challenge/run
+I'm back! Here's your flag:
+pwn.college{UuFJjlV19AeBtnNHAvK0ys1FJjG.dZDN4QDLykTN0czW}
+Don't forget to press Enter to quit me!
 
+Goodbye!
 ```
 ## Thought Process 
-** ** : 
+**Backgrounding Processes** : fg resumes the process  in the foreground but we can also resume them in the background itself using the 'bg' command.<br>
+So the process will keep running in the background while we can add or process more commands in the terminal.
 ### Solving 
-
+The run process wants to see another process of itself running but this time, it should not be suspended. So basically again we run it once and suspend it <br>
+But then keep it running in the background using bg command and again run it the 2nd time in the terminal.
 #### Challenge  6
 ```bash
+Connected!
+hacker@processes~backgrounding-processes:~$ /challenge/run
+I'll only give you the flag if there's already another copy of me running *and
+not suspended* in this terminal... Let's check!
 
+UID          PID STAT CMD
+root          82 S+   bash /challenge/run
+root          84 R+   ps -o user=UID,pid,stat,cmd
+
+I don't see a second me!
+
+To pass this level, you need to suspend me, resume the suspended process in the
+background, and then launch a new version of me! You can background me with
+Ctrl-Z (and resume me in the background with 'bg') or, if you're not ready to
+do that for whatever reason, just hit Enter and I'll exit!
+^Z
+[1]+  Stopped                 /challenge/run
+hacker@processes~backgrounding-processes:~$ bg
+[1]+ /challenge/run &
+
+
+
+Yay, I'm now running the background! Because of that, this text will probably
+overlap weirdly with the shell prompt. Don't panic; just hit Enter a few times
+to scroll this text out.
+hacker@processes~backgrounding-processes:~$ /challenge/run
+I'll only give you the flag if there's already another copy of me running *and
+not suspended* in this terminal... Let's check!
+
+UID          PID STAT CMD
+root          82 S    bash /challenge/run
+root          92 S    sleep 6h
+root          93 S+   bash /challenge/run
+root          95 R+   ps -o user=UID,pid,stat,cmd
+
+Yay, I found another version of me running in the background! Here is the flag:
+pwn.college{As64Xe49pnmapZCn1eyjFwJv1Ip.ddDN4QDLykTN0czW}
 ```
+**EXTRA** :<br>
+Viewing differences between suspend and background properties. First we'll suspend a sleep process :<br>
+sleep 1337<br>
+(ctrl + z)
+The sleep process is now suspended in the background. We can see this with ps by enabling the stat column output with the -o option: <br>
+```bash
+hacker@dojo:~$ ps -o user,pid,stat,cmd
+USER         PID STAT CMD
+hacker       702 Ss   bash
+hacker       762 T    sleep 1337
+hacker       782 R+   ps -o user,pid,stat,cmd
+hacker@dojo:~$ 
+```
+So the T in front of sleep process as its stat shows that the sleep process is suspended and the S in bash's stat shows that its sleeping while waiting for input<br>. In the ps's stat the R means its running and + means in the foreground.<br>
+Lets see when we resume the sleep process :
+```bash
+hacker@dojo:~$ bg
+[1]+ sleep 1337 &
+hacker@dojo:~$ ps -o user,pid,stat,cmd
+USER         PID STAT CMD
+hacker       702 Ss   bash
+hacker       762 S    sleep 1337
+hacker      1224 R+   ps -o user,pid,stat,cmd
+hacker@dojo:~$
+```
+The S shows that its sleeping but not suspended and since it doesnt have the + sign hence, its in the background. 
 ## Thought Process 
-** ** : 
+**Foregrounding Processes** : If a process is in the background and we want to work with it we can bring it back to the foreground again with the fg command.
 ### Solving 
-
+We first run the /challenge/run process and suspend it using ctrl+Z , then resume it in the background using bg now its running in the background but <br>
+to bring it back to the foreground ill just type the fg command and get the flag as it runs in the foreground of the terminal.
 #### Challenge  7
 ```bash
+hacker@processes~foregrounding-processes:~$ ps -o stat
+STAT
+Ss
+R+
+hacker@processes~foregrounding-processes:~$ fg
+ssh-entrypoint: fg: current: no such job
+hacker@processes~foregrounding-processes:~$ /challenge/run
+To pass this level, you need to suspend me, resume the suspended process in the
+background, and *then* foreground it without re-suspending it! You can
+background me with Ctrl-Z (and resume me in the background with 'bg') or, if
+you're not ready to do that for whatever reason, just hit Enter and I'll exit!
+^Z
+[1]+  Stopped                 /challenge/run
+hacker@processes~foregrounding-processes:~$ bg
+[1]+ /challenge/run &
 
+
+
+hacker@processes~foregrounding-processes:~$ Yay, I'm now running the background! Because of that, this text will probably
+overlap weirdly with the shell prompt. Don't panic; just hit Enter a few times
+to scroll this text out. After that, resume me into the foreground with 'fg';
+I'll wait.
+fg
+/challenge/run
+YES! Great job! I'm now running in the foreground. Hit Enter for your flag!
+
+pwn.college{YunBmUT67b1_y0Y91X9qkTPAnx3.dhDN4QDLykTN0czW}
 ```
 ## Thought Process 
-** ** : 
-### Solving 
+**Starting Background Processes** : Instead of starting a process and then suspending it and then running it in the background we can straightup <br>
+start a background process by just adding a & sign at the end of the process command. like : <br>
+sleep 1337 &
 
+### Solving 
+now to start  /challenge/run as a background process i can simply append it with a & sign.
 #### Challenge  8
 ```bash
+hacker@processes~starting-backgrounded-processes:~$ /challenge/run &
+[1] 82
 
+
+
+Yay, you started me in the background! Because of that, this text will probably
+overlap weirdly with the shell prompt, but you're used to that by now...
+
+hacker@processes~starting-backgrounded-processes:~$ Anyways! Here is your flag!
+pwn.college{EfxL7ijE7K6llZuB0RzCoLcEtjt.dlDN4QDLykTN0czW}
+
+[1]+  Done                    /challenge/run
 ```
 ## Thought Process 
-** ** : 
+**Process Exit Codes** : Every shell command, whether a program or a built-in, ends with an exit code after execution. This exit code allows the shell <br>
+or the user to determine if the command succeeded or failed, based on what the process was intended to accomplish.<br>
+We can access this exit code of the most recently terminated command by using the special variable '?' and to read it's value we must append it with $ sign.<br>
+ex :<br>
+touch text_file<br>
+echo $? <br>
+output = 0<br>
+touch /test-file <br>
+touch: cannot touch '/test-file': Permission denied <br>
+echo $?<br>
+output = 1<br>
+Commanly if a command succees would return 0 and fails it will return 1 but sometimes can return other values.
 ### Solving 
-
+Here we had to run the /challenge/get-code process and as it terminates it will generate an exit code, to retrieve and read that exit code i<br>
+use the echo command with $? argument where ? gives the exit code and $ reads it , further to get the flag we had to run the /challenge/submit-code with <br>
+the exit code of prev process as its argument. 
 #### Challenge  9
 ```bash
-
+hacker@processes~process-exit-codes:~$ /challenge/get-code
+Exiting with an error code!
+hacker@processes~process-exit-codes:~$ echo $?
+204
+hacker@processes~process-exit-codes:~$ /challenge/submit-code 204
+CORRECT! Here is your flag:
+pwn.college{cpoBU34g6R2-Q2eJ_7fS3bnLi1I.dljN4UDLykTN0czW}
 ```
 
