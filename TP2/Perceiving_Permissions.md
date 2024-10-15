@@ -1,5 +1,9 @@
 # Perceiving Permissions
 
+
+
+
+
 ## Thought Process
 **Changing File Ownership** : 
 ### Solving 
