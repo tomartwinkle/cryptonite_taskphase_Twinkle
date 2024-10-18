@@ -102,6 +102,7 @@ o-w removes write access for other users<br>
 a-rwx removes all permissions for the user, group, and world<br><br>
 where u-user , g-group , o-others , r - read , w-write , x-execute , a- all permissions and if we use '*' it will remove those permissions like so :<br>
 <br>
+```bash
 root@dojo:~# mkdir pwn_directory
 root@dojo:~# touch college_file
 root@dojo:~# ls -l
@@ -113,10 +114,13 @@ root@dojo:~# ls -l
 total 4
 -rw------- 1 hacker root    0 May 22 13:42 college_file
 drwx------ 2 root   root 4096 May 22 13:42 pwn_directory
+```
 <br>
-__Typically, you need to have write access to the file in order to change its permissions__
+Typically, you need to have write access to the file in order to change its permissions
+
 ### Solving 
 At first i tried doing u+r but the user is root not hacker so that was wrong, instead its correct to give permission to all users using a+r and then specifying the /flag file in chmod command.
+
 #### Challenge 4
 ```bash
 hacker@permissions~changing-permissions:~$ chmod u+r /flag
