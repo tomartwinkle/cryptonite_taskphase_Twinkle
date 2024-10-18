@@ -88,7 +88,7 @@ pwn.college{wF5N5WS5yTgFspWvS2cjoMu-gxW.dJzNyUDLykTN0czW}
 r - user/group/other can read the file (or list the directory)<br>
 w - user/group/other can modify the files (or create/delete files in the directory)<br>
 x - user/group/other can execute the file as a program (or can enter the directory, e.g., using `cd`)<br>
-- - nothing <br>
+'-' - nothing <br>
 <br>
 Like ownership, file permissions can also be changed. This is done with the chmod (change mode) command. The basic usage for chmod is: <br>
 chmod [OPTIONS] MODE FILE <br>
