@@ -94,12 +94,37 @@ Like ownership, file permissions can also be changed. This is done with the chmo
 chmod [OPTIONS] MODE FILE <br>
   we can specify the MODE in two ways: as a modification of the existing permissions mode, or as a completely new mode to overwrite the old one.<br>
   modifying an existing mode :<br>
-  
+  chmod allows you to tweak permissions with the mode format of WHO+/-WHAT, where WHO is user/group/other and WHAT is read/write/execute.
+For example, to add read access for the owning user, we add u+r as argument. More examples:<br><br>
+u+r, as above, adds read access to the user's permissions<br>
+g+wx adds write and execute access to the group's permissions<br>
+o-w removes write access for other users<br>
+a-rwx removes all permissions for the user, group, and world<br><br>
+where u-user , g-group , o-others , r - read , w-write , x-execute , a- all permissions and if we use '*' it will remove those permissions like so :<br>
+<br>
+root@dojo:~# mkdir pwn_directory
+root@dojo:~# touch college_file
+root@dojo:~# ls -l
+total 4
+-rw-r--r-- 1 root root    0 May 22 13:42 college_file
+drwxr-xr-x 2 root root 4096 May 22 13:42 pwn_directory
+root@dojo:~# chmod go-rwx *
+root@dojo:~# ls -l
+total 4
+-rw------- 1 hacker root    0 May 22 13:42 college_file
+drwx------ 2 root   root 4096 May 22 13:42 pwn_directory
+<br>
+__Typically, you need to have write access to the file in order to change its permissions__
 ### Solving 
-
+At first i tried doing u+r but the user is root not hacker so that was wrong, instead its correct to give permission to all users using a+r and then specifying the /flag file in chmod command.
 #### Challenge 4
 ```bash
-
+hacker@permissions~changing-permissions:~$ chmod u+r /flag
+hacker@permissions~changing-permissions:~$ cat /flag
+cat: /flag: Permission denied
+hacker@permissions~changing-permissions:~$ chmod a+r /flag
+hacker@permissions~changing-permissions:~$ cat /flag
+pwn.college{IgcZTU0J96jJAAlgj_63JZq6a0a.dNzNyUDLykTN0czW}
 ```
 ## Thought Process
 **Executable Files** : 
