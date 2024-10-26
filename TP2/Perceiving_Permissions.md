@@ -12,7 +12,7 @@ hacker@dojo:~$
 **File Type** : determined by the first character . 'd' = directory and '-' = normal file . <br>
 <br>
 (Group: Files also have a group associated with them, and all users in that group have certain permissions (defined by the file's permission settings).)<br>
-**The Permissions** : he next nine characters are the actual access permissions of the file or directory,<br>
+**The Permissions** : The next nine characters are the actual access permissions of the file or directory,<br>
 split into 3 characters denoting the permissions that the user who owns the file (termed the "owner") has to the file, <br>
 3 characters denoting the permissions that the group that owns the file (termed the "group") has to the file, <br>
 and 3 characters denoting the permissions that all other access (e.g., by other users and other groups) has to the file. <br>
