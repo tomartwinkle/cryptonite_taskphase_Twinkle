@@ -28,7 +28,7 @@ You've set the PWN variable properly! As promised, here is the flag:
 pwn.college{8vRshA0cVIghW6gflJEUG2KVjeR.dlTN1QDLykTN0czW}
 ```
 ## Thought Process 
-**Multi Word Variables** : Now as mentioned earlies, if we use space then shell will end the variable assignment and it wont work the way we want it to <br>
+**Multi Word Variables** : Now as mentioned earlier, if we use space then shell will end the variable assignment and it wont work the way we want it to <br>
 So, instead if we want to assign more than one value to a variable or we need a space somewhere in the value we can put them inside quotation marks <br>
 and shell will read it as a single value.
 ### Solving 
