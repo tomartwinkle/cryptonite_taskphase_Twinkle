@@ -41,7 +41,7 @@ pwn.college{8Q9LsFCJlInysrYhrkdWUgtQ_mj.dZTN0UDLykTN0czW}
 ```
 ## Thought Process 
 **Cracking Passwords** : When we enter a password for the su command, it is compared from the stored password and these passwords were stored <br>
-in the /etc/password before but that is a globally readable file which is not safe enough so it got changed to /etc/shadow which encrypts the pass ,br>
+in the /etc/password before but that is a globally readable file which is not safe enough so it got changed to /etc/shadow which encrypts the pass ,
 and is not readble by everyone only by root or users with elevated privilages can read it, making it safer.<br>
 The structure of /etc/shadow is similar to /etc/passwd, but the second field is used for storing hashed passwords. Fields are separated by colons (:).<br>
 The first field of each line is the username and the second is the password. A value of * or ! functionally means that password login for the account <br>
