@@ -8,7 +8,6 @@ search the programs from corresponding to the commands. If we blank out the path
 The first attempt i did i got the flag but i basically removed all commands including rm that were in the directory by setting PATH="" <br>
 #### Challenge 1
 ```bash
-hacker@path~the-path-variable:~$ $rm
 hacker@path~the-path-variable:~$ PATH=""
 hacker@path~the-path-variable:~$ rm
 ssh-entrypoint: rm: No such file or directory
