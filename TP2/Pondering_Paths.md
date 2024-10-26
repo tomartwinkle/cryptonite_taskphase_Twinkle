@@ -1,5 +1,6 @@
 # Pondering Paths 
 
+Resource : https://www.youtube.com/watch?v=hk0RwVC6uts
 ## Thought Process 
 **The Path Variable** : How does the shell find ls command ? So there's a special shell variable called PATH it stores directory paths where the shell will <br>
 search the programs from corresponding to the commands. If we blank out the path variable we cannot find the command anymore. 
