@@ -736,12 +736,12 @@ hacker@permissions~permissions-setting-practice:~$ cat /flag
 pwn.college{gHZuYjoQDwEHmjrXhrmnxCRn1-z.dNTM5QDLykTN0czW}
 ```
 ## Thought Process
-**The SUID bit** : The SUID bit is the ' set user ID ' bit ,It allows non-root users to execute specific programs with the privileges of the file’s owner, <br>
-often root, which is crucial for various system tasks that require elevated access. The SUID bit (s) in file permissions allows a program to run as the file <br>owner, even if a non-privileged user executes it. This is how programs like sudo can give temporary root access.<br>
+**The SUID bit** : The SUID bit is the ' set user ID ' bit ,It allows non-root users to execute specific programs with the privileges of the file’s owner,
+often root, which is crucial for various system tasks that require elevated access. The SUID bit (s) in file permissions allows a program to run as the file <br>owner, even if a non-privileged user executes it. This is how programs like sudo can give temporary root access.
 Setting the SUID bit on a program owned by root might lead to security vulnerabilities. If an attacker finds a way to misuse that program, they might be able to escalate their privileges and gain full control of the system. This is why system administrators need to be very cautious when assigning the SUID bit to any executable. when we add it to file permissiosn we can see an additional 's' which shows that it has the SUID bit.
 ### Solving 
-i used chmod u+s /challenge/getroot to put the suid bit in the permissions so that i can run the program with the privilages of the owner even if im <br>
-another user. Then at first attempt i had tried straightaway reading the flag file using cat /flag but it didnt run as i didnt get the file permissions yet <br>
+i used chmod u+s /challenge/getroot to put the suid bit in the permissions so that i can run the program with the privilages of the owner even if im 
+another user. Then at first attempt i had tried straightaway reading the flag file using cat /flag but it didnt run as i didnt get the file permissions yet 
 i had to first set the suid bit program running so it could run as root ie: running the /challenge/getroot file after adding SUID in the permissions so it runs<br>
 as root and then i can read the flag file using cat command as now it will give me owner's privilages.
 #### Challenge 8
